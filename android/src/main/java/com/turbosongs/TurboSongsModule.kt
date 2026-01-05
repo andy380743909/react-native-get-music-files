@@ -391,10 +391,12 @@ class TurboSongsModule internal constructor(context: ReactApplicationContext) :
   private fun createAlbumCursor(resultSet: Cursor?, options: ReadableMap?): WritableArray {
     val items: WritableArray = WritableNativeArray()
     var coverQuality = 100
+    var needCover = false
     if (resultSet != null) {
       if(resultSet.moveToFirst()) {
         if(options != null && options.hasKey("coverQuality")){
           coverQuality = options.getInt("coverQuality")
+          needCover = true
         }
 
         do {
@@ -409,7 +411,12 @@ class TurboSongsModule internal constructor(context: ReactApplicationContext) :
           song.putString("album", album)
           song.putString("artist", artist)
           song.putString("numberOfSongs", numberOfSongs)
-          song.putString("cover", getCover(path, coverQuality))
+
+          if (needCover) {
+            song.putString("cover", getCover(path, coverQuality))
+          } else {
+            song.putString("cover", "")
+          }
 
           items.pushMap(song)
         } while (resultSet.moveToNext())
@@ -422,11 +429,13 @@ class TurboSongsModule internal constructor(context: ReactApplicationContext) :
   private fun createSongCursor(resultSet: Cursor?, options: ReadableMap?) : WritableArray {
     val items: WritableArray = WritableNativeArray()
     var coverQuality = 100
+    var needCover = false
     if (resultSet != null) {
       if(resultSet.moveToFirst()) {
 
         if(options != null && options.hasKey("coverQuality")){
           coverQuality = options.getInt("coverQuality")
+          needCover = true
         }
 
         do {
@@ -437,8 +446,6 @@ class TurboSongsModule internal constructor(context: ReactApplicationContext) :
           val genre = resultSet.getString(4)
           val path = resultSet.getString(5)
 
-          var thumbnail = getCover(path, coverQuality)
-
           var song: WritableMap = WritableNativeMap();
           song.putString("url", path)
           song.putString("title", title)
@@ -446,8 +453,13 @@ class TurboSongsModule internal constructor(context: ReactApplicationContext) :
           song.putString("artist", artist)
           song.putInt("duration", Integer.parseInt(duration))
           song.putString("genre", genre)
-          song.putString("cover", thumbnail)
 
+          if (needCover) {
+            var thumbnail = getCover(path, coverQuality)
+            song.putString("cover", thumbnail)
+          } else {
+            song.putString("cover", "")
+          }
           items.pushMap(song)
         } while (resultSet.moveToNext())
       }

@@ -21,6 +21,8 @@ RCT_EXPORT_METHOD(getAll:(NSDictionary *)options
     NSInteger coverQty = [options objectForKey:@"coverQuality"] ? [options[@"coverQuality"] integerValue] : 100;
     NSInteger minSongDuration = [options objectForKey:@"minSongDuration"] ? [options[@"minSongDuration"] integerValue] / 1000 : 100;
     
+    BOOL needCover = [options objectForKey:@"coverQuality"] != nil || [options[@"coverQuality"] integerValue] == 0;
+    
     id sortOrderValue = [options objectForKey:@"sortOrder"];
 
     NSString *sortOrder;
@@ -72,8 +74,6 @@ RCT_EXPORT_METHOD(getAll:(NSDictionary *)options
             NSString *albumArtist = [song valueForProperty: MPMediaItemPropertyAlbumArtist];
             NSString *genre = [song valueForProperty: MPMediaItemPropertyGenre]; // filterable
             
-            MPMediaItemArtwork *artwork = [song valueForProperty: MPMediaItemPropertyArtwork];
-
             [songDictionary setValue:[NSString stringWithString:assetURL.absoluteString] forKey:@"url"];
             [songDictionary setValue:[NSString stringWithString:title] forKey:@"title"];
             [songDictionary setValue:[NSString stringWithString:albumTitle] forKey:@"album"];
@@ -81,12 +81,17 @@ RCT_EXPORT_METHOD(getAll:(NSDictionary *)options
             [songDictionary setValue:[NSNumber numberWithInt:durationInt * 1000] forKey:@"duration"];
             [songDictionary setValue:[NSString stringWithString:genre] forKey:@"genre"];
             
-            if (artwork != nil) {
-                UIImage *image = [artwork imageWithSize:CGSizeMake(coverQty, coverQty)];
-                // http://www.12qw.ch/2014/12/tooltip-decoding-base64-images-with-chrome-data-url/
-                // http://stackoverflow.com/a/510444/185771
-                NSString *base64 = [NSString stringWithFormat:@"%@%@", @"data:image/jpeg;base64,", [self imageToNSString:image]];
-                [songDictionary setValue:base64 forKey:@"cover"];
+            if (needArtwork) {
+                MPMediaItemArtwork *artwork = [song valueForProperty: MPMediaItemPropertyArtwork];
+                if (artwork != nil) {
+                    UIImage *image = [artwork imageWithSize:CGSizeMake(coverQty, coverQty)];
+                    // http://www.12qw.ch/2014/12/tooltip-decoding-base64-images-with-chrome-data-url/
+                    // http://stackoverflow.com/a/510444/185771
+                    NSString *base64 = [NSString stringWithFormat:@"%@%@", @"data:image/jpeg;base64,", [self imageToNSString:image]];
+                    [songDictionary setValue:base64 forKey:@"cover"];
+                } else {
+                    [songDictionary setValue:@"" forKey:@"cover"];
+                }
             } else {
                 [songDictionary setValue:@"" forKey:@"cover"];
             }
@@ -112,6 +117,8 @@ RCT_EXPORT_METHOD(getAlbums:(NSDictionary *)options
     NSInteger offset =  [options objectForKey:@"offset"] ? [options[@"offset"] integerValue] : 0;
     NSInteger coverQty = [options objectForKey:@"coverQuality"] ? [options[@"coverQuality"] integerValue] : 100;
     NSString *artist = options[@"artist"];
+    
+    BOOL needCover = [options objectForKey:@"coverQuality"] != nil || [options[@"coverQuality"] integerValue] == 0;
     
     id sortOrderValue = [options objectForKey:@"sortOrder"];
 
@@ -172,19 +179,23 @@ RCT_EXPORT_METHOD(getAlbums:(NSDictionary *)options
             NSString *albumTitle = [album valueForProperty: MPMediaItemPropertyAlbumTitle]; // filterable
             NSString *albumArtist = [album valueForProperty: MPMediaItemPropertyAlbumArtist]; //
             NSString *numberOfSongs = [album valueForProperty: MPMediaItemPropertyAlbumTrackCount]; //
-            MPMediaItemArtwork *artwork = [album valueForProperty: MPMediaItemPropertyArtwork];
-       
+            
             [songDictionary setValue:[NSString stringWithString:assetURL.absoluteString] forKey:@"url"];
             [songDictionary setValue:[NSString stringWithString:albumTitle] forKey:@"album"];
             [songDictionary setValue:[NSString stringWithString:albumArtist] forKey:@"artist"];
             [songDictionary setValue:[NSString stringWithString:numberOfSongs] forKey:@"numberOfSongs"];
             
-            if (artwork != nil) {
-                UIImage *image = [artwork imageWithSize:CGSizeMake(coverQty, coverQty)];
-                // http://www.12qw.ch/2014/12/tooltip-decoding-base64-images-with-chrome-data-url/
-                // http://stackoverflow.com/a/510444/185771
-                NSString *base64 = [NSString stringWithFormat:@"%@%@", @"data:image/jpeg;base64,", [self imageToNSString:image]];
-                [songDictionary setValue:base64 forKey:@"cover"];
+            if (needArtwork) {
+                MPMediaItemArtwork *artwork = [album valueForProperty: MPMediaItemPropertyArtwork];
+                if (artwork != nil) {
+                    UIImage *image = [artwork imageWithSize:CGSizeMake(coverQty, coverQty)];
+                    // http://www.12qw.ch/2014/12/tooltip-decoding-base64-images-with-chrome-data-url/
+                    // http://stackoverflow.com/a/510444/185771
+                    NSString *base64 = [NSString stringWithFormat:@"%@%@", @"data:image/jpeg;base64,", [self imageToNSString:image]];
+                    [songDictionary setValue:base64 forKey:@"cover"];
+                } else {
+                    [songDictionary setValue:@"" forKey:@"cover"];
+                }
             } else {
                 [songDictionary setValue:@"" forKey:@"cover"];
             }
@@ -209,6 +220,8 @@ RCT_EXPORT_METHOD(search:(NSDictionary *)options
     NSInteger offset =  [options objectForKey:@"offset"] ? [options[@"offset"] integerValue] : 0;
     NSInteger coverQty = [options objectForKey:@"coverQuality"] ? [options[@"coverQuality"] integerValue] : 100;
     NSString *searchBy = options[@"searchBy"];
+    
+    BOOL needCover = [options objectForKey:@"coverQuality"] != nil || [options[@"coverQuality"] integerValue] == 0;
     
     id sortOrderValue = [options objectForKey:@"sortOrder"];
 
@@ -269,8 +282,6 @@ RCT_EXPORT_METHOD(search:(NSDictionary *)options
             NSString *albumArtist = [song valueForProperty: MPMediaItemPropertyAlbumArtist];
             NSString *genre = [song valueForProperty: MPMediaItemPropertyGenre]; // filterable
             
-            MPMediaItemArtwork *artwork = [song valueForProperty: MPMediaItemPropertyArtwork];
-
             [songDictionary setValue:[NSString stringWithString:assetURL.absoluteString] forKey:@"url"];
             [songDictionary setValue:[NSString stringWithString:title] forKey:@"title"];
             [songDictionary setValue:[NSString stringWithString:albumTitle] forKey:@"album"];
@@ -278,12 +289,17 @@ RCT_EXPORT_METHOD(search:(NSDictionary *)options
             [songDictionary setValue:[NSNumber numberWithInt:durationInt * 1000] forKey:@"duration"];
             [songDictionary setValue:[NSString stringWithString:genre] forKey:@"genre"];
             
-            if (artwork != nil) {
-                UIImage *image = [artwork imageWithSize:CGSizeMake(coverQty, coverQty)];
-                // http://www.12qw.ch/2014/12/tooltip-decoding-base64-images-with-chrome-data-url/
-                // http://stackoverflow.com/a/510444/185771
-                NSString *base64 = [NSString stringWithFormat:@"%@%@", @"data:image/jpeg;base64,", [self imageToNSString:image]];
-                [songDictionary setValue:base64 forKey:@"cover"];
+            if (needArtwork) {
+                MPMediaItemArtwork *artwork = [song valueForProperty: MPMediaItemPropertyArtwork];
+                if (artwork != nil) {
+                    UIImage *image = [artwork imageWithSize:CGSizeMake(coverQty, coverQty)];
+                    // http://www.12qw.ch/2014/12/tooltip-decoding-base64-images-with-chrome-data-url/
+                    // http://stackoverflow.com/a/510444/185771
+                    NSString *base64 = [NSString stringWithFormat:@"%@%@", @"data:image/jpeg;base64,", [self imageToNSString:image]];
+                    [songDictionary setValue:base64 forKey:@"cover"];
+                } else {
+                    [songDictionary setValue:@"" forKey:@"cover"];
+                }
             } else {
                 [songDictionary setValue:@"" forKey:@"cover"];
             }
