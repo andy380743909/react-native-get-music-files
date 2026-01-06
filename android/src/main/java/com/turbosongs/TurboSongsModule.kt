@@ -396,7 +396,7 @@ class TurboSongsModule internal constructor(context: ReactApplicationContext) :
       if(resultSet.moveToFirst()) {
         if(options != null && options.hasKey("coverQuality")){
           coverQuality = options.getInt("coverQuality")
-          needCover = true
+          needCover = coverQuality > 0
         }
 
         do {
@@ -435,7 +435,7 @@ class TurboSongsModule internal constructor(context: ReactApplicationContext) :
 
         if(options != null && options.hasKey("coverQuality")){
           coverQuality = options.getInt("coverQuality")
-          needCover = true
+          needCover = coverQuality > 0
         }
 
         do {
