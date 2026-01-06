@@ -81,7 +81,7 @@ RCT_EXPORT_METHOD(getAll:(NSDictionary *)options
             [songDictionary setValue:[NSNumber numberWithInt:durationInt * 1000] forKey:@"duration"];
             [songDictionary setValue:[NSString stringWithString:genre] forKey:@"genre"];
             
-            if (needArtwork) {
+            if (needCover) {
                 MPMediaItemArtwork *artwork = [song valueForProperty: MPMediaItemPropertyArtwork];
                 if (artwork != nil) {
                     UIImage *image = [artwork imageWithSize:CGSizeMake(coverQty, coverQty)];
@@ -185,7 +185,7 @@ RCT_EXPORT_METHOD(getAlbums:(NSDictionary *)options
             [songDictionary setValue:[NSString stringWithString:albumArtist] forKey:@"artist"];
             [songDictionary setValue:[NSString stringWithString:numberOfSongs] forKey:@"numberOfSongs"];
             
-            if (needArtwork) {
+            if (needCover) {
                 MPMediaItemArtwork *artwork = [album valueForProperty: MPMediaItemPropertyArtwork];
                 if (artwork != nil) {
                     UIImage *image = [artwork imageWithSize:CGSizeMake(coverQty, coverQty)];
@@ -289,7 +289,7 @@ RCT_EXPORT_METHOD(search:(NSDictionary *)options
             [songDictionary setValue:[NSNumber numberWithInt:durationInt * 1000] forKey:@"duration"];
             [songDictionary setValue:[NSString stringWithString:genre] forKey:@"genre"];
             
-            if (needArtwork) {
+            if (needCover) {
                 MPMediaItemArtwork *artwork = [song valueForProperty: MPMediaItemPropertyArtwork];
                 if (artwork != nil) {
                     UIImage *image = [artwork imageWithSize:CGSizeMake(coverQty, coverQty)];
