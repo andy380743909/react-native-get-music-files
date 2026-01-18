@@ -1,6 +1,6 @@
 {
-  "name": "react-native-get-music-files",
-  "version": "2.2.4",
+  "name": "@andycui/react-native-get-music-files",
+  "version": "3.0.3",
   "description": "React Native package to get music files from local and sd for iOS and Android",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
@@ -31,8 +31,8 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
     "clean": "del-cli android/build example/android/build example/android/app/build example/ios/build lib",
-    "prepare": "bob build",
-    "release": "release-it"
+    "release": "release-it",
+    "prepare": "bob build"
   },
   "keywords": [
     "react-native",
@@ -44,15 +44,16 @@
     "react",
     "native"
   ],
-  "repository": "https://github.com/cinder92/react-native-get-music-files",
-  "author": "Dante Cervantes <contacto@dantecervantes.com> (https://dantecervantes.com)",
+  "repository": "https://github.com/andy380743909/react-native-get-music-files",
+  "author": "Andy Cui <andy380743909@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/cinder92/react-native-get-music-files/issues"
+    "url": "https://github.com/andy380743909/react-native-get-music-files/issues"
   },
-  "homepage": "https://github.com/cinder92/react-native-get-music-files#readme",
+  "homepage": "https://github.com/andy380743909/react-native-get-music-files#readme",
   "publishConfig": {
-    "registry": "https://registry.npmjs.org/"
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
   },
   "devDependencies": {
     "@commitlint/config-conventional": "^17.0.2",
@@ -72,10 +73,10 @@
     "prettier": "^2.0.5",
     "react": "18.2.0",
     "react-native": "0.72.5",
-    "react-native-builder-bob": "^0.20.0",
+    "react-native-builder-bob": "^0.40.17",
     "release-it": "^15.0.0",
     "turbo": "^1.10.7",
-    "typescript": "^5.0.2"
+    "typescript": "^5.9.3"
   },
   "resolutions": {
     "@types/react": "17.0.21"
