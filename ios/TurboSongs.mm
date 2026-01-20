@@ -69,10 +69,10 @@ RCT_EXPORT_METHOD(getAll:(NSDictionary *)options
 
         if ([asset hasProtectedContent] == NO and durationInt >= minSongDuration) {
             
-            NSString *title = [song valueForProperty: MPMediaItemPropertyTitle];
-            NSString *albumTitle = [song valueForProperty: MPMediaItemPropertyAlbumTitle];
-            NSString *albumArtist = [song valueForProperty: MPMediaItemPropertyAlbumArtist];
-            NSString *genre = [song valueForProperty: MPMediaItemPropertyGenre]; // filterable
+            NSString *title = [song valueForProperty: MPMediaItemPropertyTitle] ?: @"";
+            NSString *albumTitle = [song valueForProperty: MPMediaItemPropertyAlbumTitle] ?: @"";
+            NSString *albumArtist = [song valueForProperty: MPMediaItemPropertyAlbumArtist] ?: @"";
+            NSString *genre = [song valueForProperty: MPMediaItemPropertyGenre] ?: @""; // filterable
             
             [songDictionary setValue:[NSString stringWithString:assetURL.absoluteString] forKey:@"url"];
             [songDictionary setValue:[NSString stringWithString:title] forKey:@"title"];
@@ -176,9 +176,9 @@ RCT_EXPORT_METHOD(getAlbums:(NSDictionary *)options
 
         if ([asset hasProtectedContent] == NO) {
             
-            NSString *albumTitle = [album valueForProperty: MPMediaItemPropertyAlbumTitle]; // filterable
-            NSString *albumArtist = [album valueForProperty: MPMediaItemPropertyAlbumArtist]; //
-            NSString *numberOfSongs = [album valueForProperty: MPMediaItemPropertyAlbumTrackCount]; //
+            NSString *albumTitle = [album valueForProperty: MPMediaItemPropertyAlbumTitle] ?: @""; // filterable
+            NSString *albumArtist = [album valueForProperty: MPMediaItemPropertyAlbumArtist] ?: @""; //
+            NSString *numberOfSongs = [album valueForProperty: MPMediaItemPropertyAlbumTrackCount] ?: @"0"; //
             
             [songDictionary setValue:[NSString stringWithString:assetURL.absoluteString] forKey:@"url"];
             [songDictionary setValue:[NSString stringWithString:albumTitle] forKey:@"album"];
@@ -277,10 +277,10 @@ RCT_EXPORT_METHOD(search:(NSDictionary *)options
             NSString *durationStr = [song valueForProperty: MPMediaItemPropertyPlaybackDuration];
             NSInteger durationInt = [durationStr integerValue];
             
-            NSString *title = [song valueForProperty: MPMediaItemPropertyTitle];
-            NSString *albumTitle = [song valueForProperty: MPMediaItemPropertyAlbumTitle];
-            NSString *albumArtist = [song valueForProperty: MPMediaItemPropertyAlbumArtist];
-            NSString *genre = [song valueForProperty: MPMediaItemPropertyGenre]; // filterable
+            NSString *title = [song valueForProperty: MPMediaItemPropertyTitle] ?: @"";
+            NSString *albumTitle = [song valueForProperty: MPMediaItemPropertyAlbumTitle] ?: @"";
+            NSString *albumArtist = [song valueForProperty: MPMediaItemPropertyAlbumArtist] ?: @"";
+            NSString *genre = [song valueForProperty: MPMediaItemPropertyGenre] ?: @""; // filterable
             
             [songDictionary setValue:[NSString stringWithString:assetURL.absoluteString] forKey:@"url"];
             [songDictionary setValue:[NSString stringWithString:title] forKey:@"title"];
