@@ -1,6 +1,6 @@
 {
   "name": "@andycui/react-native-get-music-files",
-  "version": "3.0.3",
+  "version": "3.0.4",
   "description": "React Native package to get music files from local and sd for iOS and Android",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
@@ -44,7 +44,10 @@
     "react",
     "native"
   ],
-  "repository": "https://github.com/andy380743909/react-native-get-music-files",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andy380743909/react-native-get-music-files.git"
+  },
   "author": "Andy Cui <andy380743909@gmail.com>",
   "license": "MIT",
   "bugs": {
